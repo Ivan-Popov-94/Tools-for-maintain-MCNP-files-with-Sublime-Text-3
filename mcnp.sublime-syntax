@@ -1,0 +1,142 @@
+%YAML 1.2
+---
+# See http://www.sublimetext.com/docs/3/syntax.html
+file_extensions:
+  - i
+scope: mcnp.i
+
+contexts:
+  # The prototype context is prepended to all contexts but those setting
+  prototype:
+    - include: comments
+
+  main:
+    - include: comments
+    - include: cards
+
+  cards:
+    - match: ""
+      push: "Packages/MCNP/HTML.sublime-syntax"
+      with_prototype:
+        - match: "--Begin Cells--"
+          push: expr_cells
+        - match: "--Begin Surfaces--"
+          push: expr_surfaces
+        - match: "--Begin Options--"
+          push: expr_options
+
+  # cells description block
+  expr_cells:
+    # escape from expr_cells after empty line
+    - match: ^\n
+      pop: true
+    # cell number
+    - match: ^[0-9]*4?
+      scope: storage.type.class.python
+    # material number and density
+    - match: (([1-9][0-9]*1?)\s*(\-?[0-9][0-9]*1?\.[0-9]*)([e|E][-\+][0-9]{2})?)|\s\s0\s\s
+      scope: entity.name.python
+    # zero for void cell
+    # - match:
+    #   scope: entity.name.python
+    # cell numbers in complements, cell numbers after "like" and colons
+    - match: (\s\#\(.*1?\)\s)|(\#[1-9][0-9]*1?)|[:]|(?<=like\s)(\d*)
+      scope: keyword.import
+    # geometry cards and key words
+    - match: \b(?i)(mat|imp:[np](,p)?|lat|u|fill|area|vol|tmp|trcl|like|but)
+      scope: variable.language.python
+    # digits after u, trcl and fill cards
+    - match: (?<=u=|trcl=|fill=)(\d*|\([\d\s\.-]*\))
+      scope: string.quoted.single.ruby
+    # tabs
+    - match: \t
+      scope: invalid.illegal.expected-parameter.python
+    # parentheses
+    - match: \(|\)
+      scope: source.python meta.function.parameters.default-value.python constant.language.python
+
+    # This is for reactor core map highlighting (lattice)
+    # begin of reactor core map
+    - match: "     0  0  0  0  0  0"
+      push:
+       # end of reactor core map
+       - match: "0  0  0  0  0  0"
+         pop: true
+       # water cell
+       - match: (?<=\s)(8)(?=\s)
+         scope: variable.function.python meta.generic-name.python
+       # fuel assembly
+       - match: (?<=\s)([12349])(?=\s)
+         scope: variable.language.python
+       # beryllium block
+       - match: (?<=\s)(6|61|62|60)(?=\s)
+         scope: entity.name.python
+       # lead block
+       - match: (?<=\s)(5|7)(?=\s)
+         scope: string.quoted.single.ruby
+       # ED "Aluminium Nitride"
+       - match: (?<=\s)(4[789])(?=\s)
+         scope: storage.type.class.python
+
+  # surfaces description block
+  expr_surfaces:
+    # escape from expr_surfaces after empty line
+    - match: ^\n
+      pop: true
+    # surface number
+    - match: ^[0-9]*4?
+      scope: entity.name.python
+    # surface type
+    - match: \b(?i)[a-z]/?[a-z]*1?
+      scope: variable.language.python
+    # number of Tr card
+    - match:  \d+(?=\s+\b(?i)[a-z]/?[a-z]*1?)
+      scope: source.yaml string.unquoted.plain.out.yaml entity.name.tag.yaml
+
+ 
+  # option description block
+  expr_options:
+    # escape from expr_options after empty line
+    - match: ^\n
+      pop: true
+    # material number
+    - match: ^m[a-z]*1?[1-9][0-9]*1?
+      scope: entity.name.python
+    # key words
+    - match: ^(?i)kcode|sdef|ksrc|nps|si|e0|prdmp|print|sp|mode|void|imp:[np](,p)?|^burn|ssw|tr[1-9][0-9]*1?
+      scope: variable.language.python
+    # fmesh
+    - match: ^(f|fmesh)[0-9][0-9]*1?:[np](,p)?
+      scope: storage.type.class.python
+    # tallies
+    - match: ^(fs|fm|sd|c|e|fc)[0-9][0-9]*1?
+      scope: string.quoted.single.ruby
+    # curly braces
+    - match: "{"
+      scope: keyword.import
+    - match: "}"
+      scope: keyword.import
+
+  comments:
+    # Comments begin with a 'c' and finish at the end of the line.
+    - match: '\$'
+      scope: punctuation.definition.comment.example-c
+      push:
+        # This is an anonymous context push for brevity.
+        - meta_scope: comment.line
+        - match: $\n?
+          pop: true
+    - match: ^c
+      scope: punctuation.definition.comment.example-c
+      push:
+        # This is an anonymous context push for brevity.
+        - meta_scope: comment.line
+        - match: $\n?
+          pop: true
+    - match: 'c\n'
+      scope: punctuation.definition.comment.example-c
+      push:
+        # This is an anonymous context push for brevity.
+        - meta_scope: comment.line
+        - match: $\n?
+          pop: true
