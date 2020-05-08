@@ -17,12 +17,15 @@ Input deck should be open with 'mcnp' syntax
 (https://github.com/danyalturkoglu/MCNP-syntax-highlighting). 
 
 # show_surface_description.py
-Show surface description when the user's mouse hovers over the surface
-number in the cell block. Ignore commented surfaces. if the surface was
-not found, a warning message pops up.
+- Show surface description when the user's mouse hovers over the surface
+number in the cell block.
 - Show material description ('$' comment on the first line of material card)
+when the user's mouse hovers over the surface number in the cell block. 
+- Ignore commented surfaces/materials. If the surface/material was not found, 
+a warning message pops up.
 
 # mcnp.sublime-syntax
 Syntax-hightlighting for MCNP input deck in Sublime Text 3
 (was taken from https://github.com/danyalturkoglu/MCNP-syntax-highlighting
 and a little bit changed)
+Syntax does't yet include all key words from MCNP.
