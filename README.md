@@ -1,4 +1,4 @@
-# Some tools for maintain MCNP input decks with Sublime Text 3
+# Tools for maintain MCNP input decks with Sublime Text 3
 
 # check_free_number_MCNP.py 
 This plugin helps you to avoid dublicates of
