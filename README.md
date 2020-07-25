@@ -7,11 +7,11 @@ will be fixed to the first free number. Also warning massage and free
 number will be shown.
 Plugin was tested for input deck of MCNP5-1.40 and MCNP5-1.60.
 Input deck should include titles of each block:
-'Begin Cells' - for cells description;
-'Begin Surfaces' - for surfaces description;
-'Begin Materials' - for materials description;
-'Begin Tallies' - for tallies description;
-'Begin Source' - for source and settings description
+- 'Begin Cells' - for cells description;
+- 'Begin Surfaces' - for surfaces description;
+- 'Begin Materials' - for materials description;
+- 'Begin Tallies' - for tallies description;
+- 'Begin Source' - for source and settings description
 The order of the blocks should be as in the list above.
 Input deck should be open with 'mcnp' syntax
 (https://github.com/danyalturkoglu/MCNP-syntax-highlighting). 
@@ -29,5 +29,5 @@ Plugin work with input deck that has titled and ordered block as above.
 ## mcnp.sublime-syntax
 Syntax-hightlighting for MCNP input deck in Sublime Text 3
 (was taken from https://github.com/danyalturkoglu/MCNP-syntax-highlighting
-and improved changed)
+and improved)
 Syntax does't yet include all key words from MCNP.
