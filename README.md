@@ -11,7 +11,7 @@ Input deck should include titles of each block:
 - 'Begin Surfaces' - for surfaces description;
 - 'Begin Materials' - for materials description;
 - 'Begin Tallies' - for tallies description;
-- 'Begin Source' - for source and settings description
+- 'Begin Source' - for source and settings description.\n
 The order of the blocks should be as in the list above.
 Input deck should be open with 'mcnp' syntax
 (https://github.com/danyalturkoglu/MCNP-syntax-highlighting). 
