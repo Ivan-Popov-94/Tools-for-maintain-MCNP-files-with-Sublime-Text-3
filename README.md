@@ -1,19 +1,19 @@
 # Tools for maintain MCNP input decks with Sublime Text 3
 
 ## check_free_number_MCNP.py 
-This plugin helps you to avoid dublicates of
+  This plugin helps you to avoid dublicates of
 cell/surface/material/tally number. If dublicate number was typed, it
 will be fixed to the first free number. Also warning massage and free
 number will be shown.  
-Plugin was tested for input deck of MCNP5-1.40 and MCNP5-1.60.  
+  Plugin was tested for input deck of MCNP5-1.40 and MCNP5-1.60.  
 Input deck should include titles of each block:
 - 'Begin Cells' - for cells description;
 - 'Begin Surfaces' - for surfaces description;
 - 'Begin Materials' - for materials description;
 - 'Begin Tallies' - for tallies description;
 - 'Begin Source' - for source and settings description.  
-The order of the blocks should be as in the list above.
-Input deck should be open with 'mcnp' syntax
+  The order of the blocks should be as in the list above.
+  Input deck should be open with 'mcnp' syntax
 (https://github.com/danyalturkoglu/MCNP-syntax-highlighting). 
 
 ## show_card_description.py
@@ -23,11 +23,11 @@ number in the cell block.
 when the user's mouse hovers over the surface number in the cell block. 
 - Ignore commented surfaces/materials. If the surface/material was not found, 
 a warning message pops up.  
-Plugin work with input deck that has titled and ordered block as above.
+  Plugin work with input deck that has titled and ordered block as above.
 
 
 ## mcnp.sublime-syntax
-Syntax-hightlighting for MCNP input deck in Sublime Text 3
+  Syntax-hightlighting for MCNP input deck in Sublime Text 3
 (was taken from https://github.com/danyalturkoglu/MCNP-syntax-highlighting
 and improved)  
-Syntax does't yet include all key words from MCNP.
+  Syntax does't yet include all key words from MCNP.
