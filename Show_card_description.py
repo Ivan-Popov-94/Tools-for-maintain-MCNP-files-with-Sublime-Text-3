@@ -22,8 +22,6 @@ class ShowSurfaceDescription(sublime_plugin.ViewEventListener):
         ''' Apply on_hover to all views of file '''
         return False
 
-
-
     def on_hover(self, point: int, hover_zone: int):
         v = self.view
         # show surface description
@@ -36,22 +34,23 @@ class ShowSurfaceDescription(sublime_plugin.ViewEventListener):
         tal_start = v.rowcol(v.find('Begin Tallies', 0).b)[0]
         rcm_start = v.rowcol(v.find('REACTOR CORE MAP', 0).b)[0]
         rcm_region = range(rcm_start + 1, rcm_start + 18)
-        match_surf = v.match_selector(point, " - (comment.line, \
-                                                 storage.type.class.python, \
-                                                 entity.name.python, \
-                                                 keyword.import, \
-                                                 string.quoted.single.ruby, \
-                                                 source.python, \
-                                                 meta.function.parameters. \
-                                                 default-value.python, \
-                                                 constant.language.python, \
-                                                 variable.language.python, \
-                                                 source.yaml \
-                                                 string.unquoted.plain.out.yaml \
-                                                 entity.name.tag.yaml)")
+        match_surf = v.match_selector(point, "-(comment.line, \
+                                               storage.type.class.python, \
+                                               entity.name.python, \
+                                               keyword.import, \
+                                               string.quoted.single.ruby, \
+                                               source.python, \
+                                               meta.function.parameters. \
+                                               default-value.python, \
+                                               constant.language.python, \
+                                               variable.language.python, \
+                                               source.yaml \
+                                               string.unquoted.plain.out.yaml \
+                                               entity.name.tag.yaml)")
         surf_number = v.substr(v.word(point))
-        if (match_surf and cell_start <= cur_pos_row <= surf_start and
-               cur_pos_row not in rcm_region and surf_number.strip() != ""):
+        if (match_surf and cell_start <= cur_pos_row <= surf_start
+               and cur_pos_row not in rcm_region
+               and surf_number.strip() != ""):
             if (hover_zone != sublime.HOVER_TEXT or v.is_popup_visible()):
                 return
             surf_block = sublime.Region(v.text_point(surf_start + 1, 0),
@@ -81,19 +80,23 @@ class ShowSurfaceDescription(sublime_plugin.ViewEventListener):
                     sp_y = '<span style="color: #F0E68C;">'
                     sp_wh = '<span style="color: DCDCDC; white-space: pre;">'
                     sp_end = '</span>'
-                    surf = (sp_o + '<a href="show_surf">' + surf_num + '</a>&nbsp;' + sp_end + sp_y +
-                            surf_tr + '&nbsp;&nbsp;' + sp_end + sp_r +
-                            surf_type + sp_end + sp_wh + surf_entr + sp_end +
-                            sp_g + '&nbsp;&nbsp;' + comment + sp_end)
+                    surf = (sp_o + '<a href="show_surf">' + surf_num
+                            + '</a>&nbsp;' + sp_end + sp_y
+                            + surf_tr + '&nbsp;&nbsp;' + sp_end + sp_r
+                            + surf_type + sp_end + sp_wh + surf_entr + sp_end
+                            + sp_g + '&nbsp;&nbsp;' + comment + sp_end)
                     break
                 else:
-                    surf = '<span style="color:red; background-color: #FFFF00">\
+                    surf = '<span style="color:red; \
+                            background-color: #FFFF00">\
                            <b> &nbsp;Surface was not found. </b> </span>'
             content = ('<body>' + surf + '</body>')
 
             def navigate(href):
                 if href == 'show_surf':
-                    cell_numb = v.substr(v.find('^\d+', v.text_point(v.rowcol(point)[0] + 0, 0)))
+                    cell_numb = v.substr(v.find('^\d+',
+                                                v.text_point(v.rowcol(point)[0]
+                                                             + 0, 0)))
                     p = v.text_point(line_number_s - 1, 0)
                     ph_content = '<body id="whitespace"><span class="w"> \
                         <a href="cb"> ↑ ' + cell_numb + '</a></span></body>'
@@ -105,8 +108,9 @@ class ShowSurfaceDescription(sublime_plugin.ViewEventListener):
                             v.sel().add(point)
                             v.show(v.sel())
 
-                    v.add_phantom("come_back", sublime.Region(p,p),
-                                  ph_content, sublime.LAYOUT_INLINE, on_navigate=come_back)
+                    v.add_phantom("come_back", sublime.Region(p, p),
+                                  ph_content, sublime.LAYOUT_INLINE,
+                                  on_navigate=come_back)
                     v.sel().clear()
                     v.sel().add(v.text_point(line_number_s - 1, 0))
                     v.show(v.sel())
@@ -116,11 +120,13 @@ class ShowSurfaceDescription(sublime_plugin.ViewEventListener):
             lines.clear()
 
         # show material description
-        match_mat_hover = v.match_selector(point, "source.yaml string.unquoted.plain.out.yaml entity.name.tag.yaml")
+        selector = "source.yaml string.unquoted.plain.out.yaml\
+                    entity.name.tag.yaml"
+        match_mat_hover = v.match_selector(point, selector)
         match_mat_re = re.search(r'^\d+', v.substr(cur_line)[5:].lstrip())
         mat_number = v.substr(v.word(point))
-        if (match_mat_hover and cell_start <= cur_pos_row <= surf_start and
-                mat_number == match_mat_re.group()):
+        if (match_mat_hover and cell_start <= cur_pos_row <= surf_start
+                and mat_number == match_mat_re.group()):
             if (hover_zone != sublime.HOVER_TEXT or v.is_popup_visible()):
                 return
             mat_block = sublime.Region(v.text_point(mat_start + 1, 0),
@@ -128,19 +134,20 @@ class ShowSurfaceDescription(sublime_plugin.ViewEventListener):
             lines = v.lines(mat_block)
             for i, line in enumerate(lines):
                 if mat_number == "0":
-                   mat_comment = '<span style="color: #98FB98;"> void cell \
-                                  </span>'
-                   break
+                    mat_comment = '<span style="color: #98FB98;"> void cell \
+                                   </span>'
+                    break
                 find_mat = v.find(r'^m' + mat_number + '(?=\s)', line.a)
                 if find_mat and find_mat.a == line.a:
                     line_number_m = i + mat_start + 2
                     mat_comment_mantch = re.search(r'\$.*', v.substr(line))
                     if mat_comment_mantch:
-                        mat_comment = ('<span style="color: #FFA500;"><a href="show_mat">' +
-                                       mat_number + '</a>' + '&nbsp;&nbsp;</span>' +
-                                       '<span style="color: #98FB98;">' +
-                                       mat_comment_mantch.group().lstrip('$') +
-                                       '</span>')
+                        mat_comment = ('<span style="color: \
+                                        #FFA500;"><a href="show_mat">'
+                                       + mat_number + '</a>&nbsp;&nbsp;</span>\
+                                       <span style="color: #98FB98;">'
+                                       + mat_comment_mantch.group().lstrip('$')
+                                       + '</span>')
                     else:
                         mat_comment = "no comment"
                     break
@@ -150,9 +157,11 @@ class ShowSurfaceDescription(sublime_plugin.ViewEventListener):
                                     Material was not found. </b> </span>'
             content = ('<body>' + mat_comment + '</body>')
 
-            def navigate(href): 
+            def navigate(href):
                 if href == 'show_mat':
-                    cell_numb = v.substr(v.find('^\d+', v.text_point(v.rowcol(point)[0] + 0, 0)))
+                    cell_numb = v.substr(v.find('^\d+',
+                                                v.text_point(v.rowcol(point)[0]
+                                                             + 0, 0)))
                     p = v.text_point(line_number_m - 1, 0)
                     ph_content = '<body id="whitespace"><span class="w"> \
                         <a href="cb"> ↑ ' + cell_numb + '</a></span></body>'
@@ -164,8 +173,9 @@ class ShowSurfaceDescription(sublime_plugin.ViewEventListener):
                             v.sel().add(point)
                             v.show(v.sel())
 
-                    v.add_phantom("come_back", sublime.Region(p,p),
-                                  ph_content, sublime.LAYOUT_INLINE, on_navigate=come_back)
+                    v.add_phantom("come_back", sublime.Region(p, p),
+                                  ph_content, sublime.LAYOUT_INLINE,
+                                  on_navigate=come_back)
                     v.sel().clear()
                     v.sel().add(p)
                     v.show(v.sel())

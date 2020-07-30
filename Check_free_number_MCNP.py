@@ -65,7 +65,7 @@ class CheckNumberListener(sublime_plugin.ViewEventListener):
             surf_start = v.rowcol(v.find('Begin Surfaces', 0).b)[0]
             mat_start = v.rowcol(v.find('Begin Materials', 0).b)[0]
             tal_start = v.rowcol(v.find('Begin Tallies', 0).b)[0]
-            src_start = v.rowcol(v.find('Begin Source', 0).b)[0]
+            src_start = v.rowcol(v.find('Source Description', 0).b)[0]
             match_cs = re.search(r'^\d+ ', v.substr(cur_line))
             match_m = re.search(r'^m\d* ', v.substr(cur_line))
             match_t = re.search(r'^f\d*:', v.substr(cur_line))
@@ -183,7 +183,10 @@ class CheckNumberListener(sublime_plugin.ViewEventListener):
                         if int(match_t_str) not in tallies:
                             free_tally_numbers.append(match_t_str)
                             i += 1
-                        match_t_numb = int(match_t_str[:-1])
+                        if match_t_str[:-1] != '':
+                            match_t_numb = int(match_t_str[:-1])
+                        else:
+                            match_t_numb = 0
                         match_t_type = match_t_str[-1]
                         match_t_str = str(match_t_numb + 1) + match_t_type
                     show_phantom_popup(cur_pos, free_tally_numbers, tallies,
