@@ -102,6 +102,12 @@ contexts:
     # material number
     - match: ^m[a-z]*1?[1-9][0-9]*1?
       scope: entity.name.python
+    # xs card
+    - match: ^(?i)xs\d+
+      scope: keyword.import 
+    # ZAID
+    - match: \d{4,6}\.\d{2}[a-z]|(\s+\d{4,6}\s)(?!1024|512|0 0)
+      scope: string.quoted.single.ruby 
     # key words
     - match: ^(?i)kcode|sdef|ksrc|nps|si|e0|prdmp|print|sp|mode|void|imp:[np](,p)?|^burn|ssw|tr[1-9][0-9]*1?
       scope: variable.language.python

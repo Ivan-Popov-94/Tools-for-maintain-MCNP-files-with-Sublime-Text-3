@@ -13,9 +13,12 @@ The order of the blocks should be as in the list above.
 Input deck should be open with 'mcnp' syntax
 (https://github.com/danyalturkoglu/MCNP-syntax-highlighting).
 """
+
+from collections import OrderedDict
+import re
+
 import sublime
 import sublime_plugin
-import re
 
 ch2 = None
 
@@ -26,6 +29,35 @@ class CheckNumberListener(sublime_plugin.ViewEventListener):
         syntax = settings.get('syntax')
         if syntax == 'Packages/User/mcnp.sublime-syntax':
             return True
+
+    def on_load(self):
+        blocks = OrderedDict()
+        v = self.view.window().active_view()
+        blocks["Begin Cells"] = v.rowcol(v.find('Begin Cells', 0).b)[0]
+        blocks["Begin Surfaces"] = v.rowcol(v.find('Begin Surfaces', 0).b)[0]
+        blocks["Begin Materials"] = v.rowcol(v.find('Begin Materials', 0).b)[0]
+        blocks["Begin Tallies"] = v.rowcol(v.find('Begin Tallies', 0).b)[0]
+        blocks["Source Description"] = v.rowcol(v.find('Source Description', 0).b)[0]
+        if all(blocks.values()):
+            print("All blocks have been found.")
+            ii = all([False for x in list(zip(sorted(blocks.values()),
+                                                         list(blocks.values()))) if x[0] != x[1]])
+            if ii:
+                print("Order of blocks is correct.")
+            else:
+                sublime.error_message("Order of block titles is incorrect.\n"
+                                      + "Please rearrange blocks in the following order\n"
+                                      + "1. Begin Cells\n2. Begin Surfaces\n3. Begin Materials\n"
+                                      + "4. Begin Tallies\n5. Source Description")
+        else:
+            absent = []
+            for k, v in blocks.items():
+                if not v:
+                    absent.append(k)
+            sublime.error_message("File does't contain next blocks:\n - "
+                                  + '\n - '.join(absent)
+                                  + "\n\nPaste this block for correct work of plugins")
+
 
     def on_modified_async(self):
 
