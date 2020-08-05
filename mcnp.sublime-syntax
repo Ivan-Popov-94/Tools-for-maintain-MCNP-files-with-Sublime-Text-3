@@ -18,11 +18,11 @@ contexts:
     - match: ""
       push: "Packages/MCNP/HTML.sublime-syntax"
       with_prototype:
-        - match: "--Begin Cells--"
+        - match: "Begin Cells"
           push: expr_cells
-        - match: "--Begin Surfaces--"
+        - match: "Begin Surfaces"
           push: expr_surfaces
-        - match: "--Begin Options--"
+        - match: "Begin Options"
           push: expr_options
 
   # cells description block
@@ -30,6 +30,12 @@ contexts:
     # escape from expr_cells after empty line
     - match: ^\n
       pop: true
+    # if beyond 80th column
+    - match: (?<=^.{80})(\w+)
+      scope: text.html.basic comment.block.html invalid.illegal.bad-comments-or-CDATA.html
+    # illegal symbols
+    - match: \.|,|;|(?<=\s)[[:alpha:]](?=\s)
+      scope: text.html.basic comment.block.html invalid.illegal.bad-comments-or-CDATA.html
     # cell number
     - match: ^[0-9]*4?
       scope: storage.type.class.python
@@ -46,7 +52,7 @@ contexts:
     - match: \b(?i)(mat|imp:[np](,p)?|lat|u|fill|area|vol|tmp|trcl|like|but)
       scope: variable.language.python
     # digits after u, trcl and fill cards
-    - match: (?<=u=|trcl=|fill=)(\d*|\([\d\s\.-]*\))
+    - match: (?<=u=|fill=|lat=|trcl=)(\d*|\([\d\s\.-]*\))
       scope: string.quoted.single.ruby
     # tabs
     - match: \t
@@ -83,6 +89,12 @@ contexts:
     # escape from expr_surfaces after empty line
     - match: ^\n
       pop: true
+    # if beyond 80th column
+    - match: (?<=^.{80})(\w+)
+      scope: text.html.basic comment.block.html invalid.illegal.bad-comments-or-CDATA.html
+    # illegal symbols
+    - match: ;|,|(?<=\s)[a-oqrt-z](?=\s)
+      scope: text.html.basic comment.block.html invalid.illegal.bad-comments-or-CDATA.html
     # surface number
     - match: ^[0-9]*4?
       scope: entity.name.python
@@ -99,6 +111,12 @@ contexts:
     # escape from expr_options after empty line
     - match: ^\n
       pop: true
+    # if beyond 80th column
+    - match: (?<=^.{80})(\w+)
+      scope: text.html.basic comment.block.html invalid.illegal.bad-comments-or-CDATA.html    
+    # illegal symbols (excude n, p, t letters)
+    - match: ;|,|(?<=\s)[a-moq-su-z](?=\s)
+      scope: text.html.basic comment.block.html invalid.illegal.bad-comments-or-CDATA.html    
     # material number
     - match: ^m[a-z]*1?[1-9][0-9]*1?
       scope: entity.name.python
@@ -106,7 +124,7 @@ contexts:
     - match: ^(?i)xs\d+
       scope: keyword.import 
     # ZAID
-    - match: \d{4,6}\.\d{2}[a-z]|(\s+\d{4,6}\s)(?!1024|512|0 0)
+    - match: \d{4,6}\.\d{2}[a-z]
       scope: string.quoted.single.ruby 
     # key words
     - match: ^(?i)kcode|sdef|ksrc|nps|si|e0|prdmp|print|sp|mode|void|imp:[np](,p)?|^burn|ssw|tr[1-9][0-9]*1?
@@ -156,5 +174,18 @@ contexts:
       push:
         # This is an anonymous context push for brevity.
         - meta_scope: comment.line
+        - match: $\n?
+          pop: true
+    # wrong comment letter - Russian
+    - match: ^с
+      push:
+        # This is an anonymous context push for brevity.
+        - meta_scope: text.html.basic comment.block.html invalid.illegal.bad-comments-or-CDATA.html
+        - match: $\n?
+          pop: true
+    - match: 'с\n'
+      push:
+        # This is an anonymous context push for brevity.
+        - meta_scope: text.html.basic comment.block.html invalid.illegal.bad-comments-or-CDATA.html
         - match: $\n?
           pop: true
