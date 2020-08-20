@@ -25,9 +25,20 @@ when the user's mouse hovers over the surface number in the cell block.
 a warning message pops up.  
   Plugin work with input deck that has titled and ordered block as above.
 
-
 ## mcnp.sublime-syntax
   Syntax-hightlighting for MCNP input deck in Sublime Text 3
 (was taken from https://github.com/danyalturkoglu/MCNP-syntax-highlighting
 and improved)  
   Syntax does't yet include all key words from MCNP.
+
+## comment1 and comment2 SUBLIME-MACRO files
+  Macros for comment line with 'c' letter and uncomment line respectively.
+  For set hotkeys Ctrl+Shift+C and Ctrl+Shift+X add following content to Preferences --> Key Bindings --> right (User) tab.
+  ```
+  [
+   { "keys": ["ctrl+shift+c"], "command": "run_macro_file", "args": {"file": "Packages/User/comment1.sublime-macro"} },
+   { "keys": ["ctrl+shift+x"], "command": "run_macro_file", "args": {"file": "Packages/User/comment2.sublime-macro"} }
+  ]
+  ```
+ 
+
