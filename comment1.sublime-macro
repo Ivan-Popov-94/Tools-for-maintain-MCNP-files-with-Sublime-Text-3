@@ -1,0 +1,36 @@
+[
+	{
+		"args": null,
+		"command": "split_selection_into_lines"
+	},
+	{
+		"args":
+		{
+			"extend": false,
+			"to": "bol"
+		},
+		"command": "move_to"
+	},
+	{
+		"args":
+		{
+			"extend": false,
+			"to": "bol"
+		},
+		"command": "move_to"
+	},
+	{
+		"args":
+		{
+			"characters": "c"
+		},
+		"command": "insert"
+	},
+	{
+		"args":
+		{
+			"characters": " "
+		},
+		"command": "insert"
+	}
+]
