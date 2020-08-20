@@ -31,7 +31,7 @@ a warning message pops up.
 and improved)  
   Syntax does't yet include all key words from MCNP.
 
-## comment1 and comment2 SUBLIME-MACRO files
+## comment1 and comment2 sublime-macro files
   Macros for comment line with 'c' letter and uncomment line respectively.
   For set hotkeys Ctrl+Shift+C and Ctrl+Shift+X add following content to Preferences --> Key Bindings --> right (User) tab.
   ```
