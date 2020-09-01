@@ -15,6 +15,7 @@ Input deck should include titles of each block:
   The order of the blocks should be as in the list above.
   Input deck should be open with 'mcnp' syntax
 (https://github.com/danyalturkoglu/MCNP-syntax-highlighting). 
+![](demonstrations\gif\check_cell_number.gif)
 
 ## show_card_description.py
 - Show surface description when the user's mouse hovers over the surface
