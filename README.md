@@ -18,6 +18,9 @@ Input deck should include titles of each block:
 
 ![](demonstration/gif/check_cell_number.gif)
 
+
+![](https://raw.githubusercontent.com/Ivan-Popov-94/Tools-for-maintain-MCNP-files-with-Sublime-Text-3/master/demonstration/gif/check_cell_number.gif)
+
 ## show_card_description.py
 - Show surface description when the user's mouse hovers over the surface
 number in the cell block.
