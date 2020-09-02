@@ -34,6 +34,8 @@ a warning message pops up.
 (was taken from https://github.com/danyalturkoglu/MCNP-syntax-highlighting
 and improved)  
   Syntax does't yet include all key words from MCNP.
+  
+![](demonstration/images/syntax_highlighting_demo.png)  
 
 ## comment1 and comment2 sublime-macro files
   Macros for comment line with 'c' letter and uncomment line respectively.
