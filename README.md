@@ -27,6 +27,8 @@ when the user's mouse hovers over the surface number in the cell block.
 a warning message pops up.  
   Plugin work with input deck that has titled and ordered block as above.
 
+![](demonstration/gif/show_card_description_demo.gif)
+
 ## mcnp.sublime-syntax
   Syntax-hightlighting for MCNP input deck in Sublime Text 3
 (was taken from https://github.com/danyalturkoglu/MCNP-syntax-highlighting
